@@ -1,6 +1,7 @@
 package com.curso.autoticketapp.user.infrastructure.api.dto;
 
 import jakarta.validation.constraints.Email;
+import lombok.Builder;
 import lombok.Data;
 
 @Data

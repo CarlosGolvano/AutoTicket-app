@@ -21,9 +21,6 @@ spring:
   cache:
     type: simple
 
-jwt:
-  secret: ${SECRET:"qwertyuiopasdfghjklnzxcvbnmqwertqwertyuiopasdfghjklnzxcvbnmqwert"}
-
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
@@ -42,5 +39,5 @@ management:
         http.server:
           requests: true
 
-#jwt:
-#  token: aa
+jwt:
+  token: OKEY
