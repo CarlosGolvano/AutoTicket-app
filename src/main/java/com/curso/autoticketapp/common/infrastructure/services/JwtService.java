@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -29,9 +30,12 @@ public class JwtService {
     @Value("${security.jwt.refresh_window}")
     private long REFRESH_WINDOW;
 
-    public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = Map.of(
-                "authorities",
+    public static String CLAIM_USER_ID = "user_id";
+
+    public String generateToken(UserDetails userDetails, Map<String, Object> extraClaims) {
+        Map<String, Object> claims = new HashMap<>(extraClaims);
+
+        claims.put("authorities",
                 userDetails.getAuthorities()
                         .stream()
                         .map(GrantedAuthority::getAuthority)
@@ -80,11 +84,13 @@ public class JwtService {
     }
 
     public String renewToken(String token, UserDetails userDetails) {
-        if (!canBeRenewed(token)) {
+        if (canBeRenewed(token)) {
             throw new TokenException("Token can not be renewed");
         }
 
-        return generateToken(userDetails);
+        Map<String, Object> extraClaims = Map.of(CLAIM_USER_ID, getUserId(token));
+
+        return generateToken(userDetails, extraClaims);
     }
 
     public boolean isTokenExpired(String token) {
@@ -94,7 +100,7 @@ public class JwtService {
     private boolean canBeRenewed(String token) {
         long expiredAt = getExpirationDate(token).getTime();
         long now = System.currentTimeMillis();
-        return now > expiredAt && now < expiredAt + REFRESH_WINDOW;
+        return now > expiredAt || now <= expiredAt + REFRESH_WINDOW;
     }
 
     public String getUsername(String token) {
@@ -103,5 +109,9 @@ public class JwtService {
 
     private Date getExpirationDate(String token) {
         return getClaim(token, Claims::getExpiration);
+    }
+
+    public Long getUserId(String token) {
+        return getClaim(token, claim -> claim.get(CLAIM_USER_ID, Long.class));
     }
 }

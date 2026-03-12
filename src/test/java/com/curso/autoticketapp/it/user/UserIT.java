@@ -49,6 +49,7 @@ public class UserIT {
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
+
         String token = response.getBody().getToken();
         assertNotNull(token);
         assertEquals(email, jwtService.getUsername(token));
@@ -69,6 +70,7 @@ public class UserIT {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
+
         String token = response.getBody().getToken();
         assertNotNull(token);
         assertEquals(email, jwtService.getUsername(token));

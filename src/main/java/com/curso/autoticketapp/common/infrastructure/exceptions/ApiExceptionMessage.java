@@ -95,4 +95,15 @@ public class ApiExceptionMessage {
                 req.getRequestURI()
         );
     }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    @ResponseBody
+    public ErrorMessage handleUnexpected(HttpServletRequest req, Exception exception) {
+        return new ErrorMessage(
+                exception.getMessage(),
+                exception.getClass().getSimpleName(),
+                req.getRequestURI()
+        );
+    }
 }

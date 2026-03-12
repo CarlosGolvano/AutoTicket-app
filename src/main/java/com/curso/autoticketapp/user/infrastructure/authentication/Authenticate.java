@@ -9,6 +9,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 @Component
 @RequiredArgsConstructor
 public class Authenticate implements AuthenticationPort {
@@ -23,8 +25,8 @@ public class Authenticate implements AuthenticationPort {
                 new UsernamePasswordAuthenticationToken(username, password));
 
         UserEntity user = (UserEntity) authenticate.getPrincipal();
+        Map<String, Object> extraClaims = Map.of(JwtService.CLAIM_USER_ID, user.getId());
 
-        assert user != null;
-        return jwtService.generateToken(user);
+        return jwtService.generateToken(user, extraClaims);
     }
 }
