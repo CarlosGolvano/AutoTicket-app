@@ -21,6 +21,12 @@ spring:
   cache:
     type: simple
 
+security:
+  jwt:
+    secret_key: ${SECRET:"qwertyuiopasdfghjklnzxcvbnmqwertqwertyuiopasdfghjklnzxcvbnmqwert"}
+    token_expiration: 86400000
+    refresh_window: 604800000
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
@@ -39,5 +45,3 @@ management:
         http.server:
           requests: true
 
-jwt:
-  token: OKEY

@@ -2,4 +2,3 @@
 
 > [!WARNING]  
 > Este proyecto tiene como propósito poner en práctica el conocimiento aprendido de backend.
-

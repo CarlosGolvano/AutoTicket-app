@@ -1,30 +1,37 @@
-package com.curso.autoticketapp.user.application.command.signin;
+package com.curso.autoticketapp.user.application.command.signup;
 
 import com.curso.autoticketapp.common.application.mediator.RequestHandler;
 import com.curso.autoticketapp.user.domain.entity.User;
 import com.curso.autoticketapp.user.domain.entity.UserRole;
 import com.curso.autoticketapp.user.domain.exception.UserAlreadyExistsException;
+import com.curso.autoticketapp.user.domain.port.AuthenticationPort;
+import com.curso.autoticketapp.user.domain.port.PasswordEncoderPort;
 import com.curso.autoticketapp.user.domain.port.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class SigninUserHandler implements RequestHandler<SigninUserRequest, SigninUserResponse> {
+public class SignupUserHandler implements RequestHandler<SignupUserRequest, SignupUserResponse> {
 
     private final UserRepository userRepository;
 
+    private final PasswordEncoderPort passwordEncoder;
+
+    private final AuthenticationPort authentication;
+
     @Override
-    public SigninUserResponse handle(SigninUserRequest request) {
+    public SignupUserResponse handle(SignupUserRequest request) {
         Optional<User> userExists = userRepository.findByEmail(request.getEmail());
 
         if (userExists.isPresent()) {
             throw new UserAlreadyExistsException(request.getEmail());
         }
 
-        String encodedPassword = request.getPassword();
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
 
         User user = User.builder()
                 .email(request.getEmail())
@@ -34,16 +41,13 @@ public class SigninUserHandler implements RequestHandler<SigninUserRequest, Sign
                 .build();
 
         User userSaved = userRepository.upsert(user);
+        String token = authentication.authenticate(request.getEmail(), request.getPassword());
 
-        SigninUserResponse response = new SigninUserResponse();
-        response.setToken("OKEY");
-        response.setId(userSaved.getId());
-
-        return response;
+        return new SignupUserResponse(userSaved.getId(), token);
     }
 
     @Override
-    public Class<SigninUserRequest> getRequestType() {
-        return SigninUserRequest.class;
+    public Class<SignupUserRequest> getRequestType() {
+        return SignupUserRequest.class;
     }
 }

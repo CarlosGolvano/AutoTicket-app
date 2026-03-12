@@ -1,15 +1,15 @@
-package com.curso.autoticketapp.it;
+package com.curso.autoticketapp.it.user;
 
-import com.curso.autoticketapp.it.config.RestConfig;
+import com.curso.autoticketapp.common.infrastructure.services.JwtService;
+import com.curso.autoticketapp.it.user.config.RestConfig;
 import com.curso.autoticketapp.user.infrastructure.api.UserController;
 import com.curso.autoticketapp.user.infrastructure.api.dto.LoginUserRequestDTO;
-import com.curso.autoticketapp.user.infrastructure.api.dto.SigninUserRequestDTO;
-import com.curso.autoticketapp.user.infrastructure.api.dto.SigninUserResponseDTO;
+import com.curso.autoticketapp.user.infrastructure.api.dto.SignupUserRequestDTO;
+import com.curso.autoticketapp.user.infrastructure.api.dto.SignupUserResponseDTO;
 import com.curso.autoticketapp.user.infrastructure.api.dto.TokenResponseDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.resttestclient.TestRestTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -17,8 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Import(RestConfig.class)
@@ -28,24 +27,31 @@ public class UserIT {
     @Qualifier("restTemplate")
     private TestRestTemplate restTemplate;
 
-    @Value("${jwt.token}")
-    private String token;
+    @Autowired
+    private JwtService jwtService;
 
+    private final String email = "test@example.es";
+
+
+    @Sql(value = "/it/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     @Test
-    public void userSignin() {
-        SigninUserRequestDTO request = new SigninUserRequestDTO();
+    public void userSignup() {
+
+        SignupUserRequestDTO request = new SignupUserRequestDTO();
         request.setUsername("test");
-        request.setEmail("test@example.es");
+        request.setEmail(email);
         request.setPassword("1234");
 
-        ResponseEntity<SigninUserResponseDTO> response = restTemplate.postForEntity(
-                UserController.BASE_URL + "/signin",
+        ResponseEntity<SignupUserResponseDTO> response = restTemplate.postForEntity(
+                UserController.BASE_URL + "/signup",
                 request,
-                SigninUserResponseDTO.class);
+                SignupUserResponseDTO.class);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(token, response.getBody().getToken());
+        String token = response.getBody().getToken();
+        assertNotNull(token);
+        assertEquals(email, jwtService.getUsername(token));
     }
 
     @Sql(value = "/it/user/data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -53,7 +59,7 @@ public class UserIT {
     @Test
     public void userLogin() {
         LoginUserRequestDTO request = new LoginUserRequestDTO();
-        request.setEmail("test@example.es");
+        request.setEmail(email);
         request.setPassword("1234");
 
         ResponseEntity<TokenResponseDTO> response = restTemplate.postForEntity(
@@ -63,6 +69,8 @@ public class UserIT {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(token, response.getBody().getToken());
+        String token = response.getBody().getToken();
+        assertNotNull(token);
+        assertEquals(email, jwtService.getUsername(token));
     }
 }

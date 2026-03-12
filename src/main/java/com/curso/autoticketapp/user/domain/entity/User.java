@@ -3,6 +3,8 @@ package com.curso.autoticketapp.user.domain.entity;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.Instant;
+
 @Data
 @Builder
 public class User {
@@ -12,5 +14,7 @@ public class User {
     private String email;
     private String password;
     private UserRole role;
+    private Instant createdAt;
+    private Instant updatedAt;
 
 }

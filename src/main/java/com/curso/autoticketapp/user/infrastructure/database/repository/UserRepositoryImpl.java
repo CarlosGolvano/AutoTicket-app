@@ -18,7 +18,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User upsert(User user) {
+        Optional<UserEntity> optionalUser = queryUserRepository.findByEmail(user.getEmail());
         UserEntity userEntity = userEntityMapper.mapToUserEntity(user);
+
+        optionalUser.ifPresent(entity -> userEntity.setId(entity.getId()));
+
         UserEntity userSaved = queryUserRepository.save(userEntity);
 
         return userEntityMapper.mapToUser(userSaved);

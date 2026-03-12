@@ -1,9 +1,15 @@
 package com.curso.autoticketapp.common.infrastructure.exceptions;
 
+import com.curso.autoticketapp.common.domain.exception.ExceptionWithCode;
 import com.curso.autoticketapp.common.domain.exception.HandlerNotFoundException;
+import com.curso.autoticketapp.common.domain.exception.NoValidJwtException;
+import com.curso.autoticketapp.common.domain.exception.TokenException;
 import com.curso.autoticketapp.user.domain.exception.UserAlreadyExistsException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -54,5 +60,39 @@ public class ApiExceptionMessage {
                 exception.getMessage(),
                 exception.getClass().getSimpleName(),
                 req.getRequestURI());
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler({TokenException.class, NoValidJwtException.class})
+    @ResponseBody
+    public ErrorMessage handleToken(HttpServletRequest req, ExceptionWithCode exception) {
+        return new ErrorMessage(
+                exception.getCode(),
+                exception.getMessage(),
+                exception.getClass().getSimpleName(),
+                req.getRequestURI()
+        );
+   }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseBody
+    public ErrorMessage handleBadCredential(HttpServletRequest req, Exception exception) {
+        return new ErrorMessage(
+                exception.getMessage(),
+                exception.getClass().getSimpleName(),
+                req.getRequestURI()
+        );
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler({LockedException.class, DisabledException.class})
+    @ResponseBody
+    public ErrorMessage handleLockedOrDisabled(HttpServletRequest req, Exception exception) {
+        return new ErrorMessage(
+                exception.getMessage(),
+                exception.getClass().getSimpleName(),
+                req.getRequestURI()
+        );
     }
 }

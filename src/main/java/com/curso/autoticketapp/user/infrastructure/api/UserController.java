@@ -3,16 +3,17 @@ package com.curso.autoticketapp.user.infrastructure.api;
 import com.curso.autoticketapp.common.application.mediator.Mediator;
 import com.curso.autoticketapp.user.application.command.login.LoginUserRequest;
 import com.curso.autoticketapp.user.application.command.login.LoginUserResponse;
-import com.curso.autoticketapp.user.application.command.signin.SigninUserRequest;
-import com.curso.autoticketapp.user.application.command.signin.SigninUserResponse;
+import com.curso.autoticketapp.user.application.command.signup.SignupUserRequest;
+import com.curso.autoticketapp.user.application.command.signup.SignupUserResponse;
 import com.curso.autoticketapp.user.infrastructure.api.dto.LoginUserRequestDTO;
-import com.curso.autoticketapp.user.infrastructure.api.dto.SigninUserRequestDTO;
-import com.curso.autoticketapp.user.infrastructure.api.dto.SigninUserResponseDTO;
+import com.curso.autoticketapp.user.infrastructure.api.dto.SignupUserRequestDTO;
+import com.curso.autoticketapp.user.infrastructure.api.dto.SignupUserResponseDTO;
 import com.curso.autoticketapp.user.infrastructure.api.dto.TokenResponseDTO;
 import com.curso.autoticketapp.user.infrastructure.api.mapper.UserMapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -28,6 +29,7 @@ public class UserController implements UserAPI{
     private final UserMapper userMapper;
 
     @Override
+    @Validated
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDTO> userLogin(@RequestBody LoginUserRequestDTO loginUserRequestDTO) {
         LoginUserRequest request = userMapper.mapToLoginUserRequest(loginUserRequestDTO);
@@ -38,11 +40,12 @@ public class UserController implements UserAPI{
     }
 
     @Override
-    @PostMapping("/signin")
-    public ResponseEntity<SigninUserResponseDTO> userSignin(@RequestBody SigninUserRequestDTO signinUserRequestDTO) {
-        SigninUserRequest request = userMapper.mapToSigninUserRequest(signinUserRequestDTO);
+    @Validated
+    @PostMapping("/signup")
+    public ResponseEntity<SignupUserResponseDTO> userSignup(@RequestBody SignupUserRequestDTO signupUserRequestDTO) {
+        SignupUserRequest request = userMapper.mapToSigninUserRequest(signupUserRequestDTO);
 
-        SigninUserResponse response = mediator.dispatch(request);
+        SignupUserResponse response = mediator.dispatch(request);
 
         return ResponseEntity
                 .created(URI.create(UserController.BASE_URL + "/" + response.getId().toString()))

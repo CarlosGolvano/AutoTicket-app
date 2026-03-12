@@ -21,8 +21,11 @@ spring:
   cache:
     type: simple
 
-jwt:
-  secret: ${SECRET:"qwertyuiopasdfghjklnzxcvbnmqwertqwertyuiopasdfghjklnzxcvbnmqwert"}
+security:
+  jwt:
+    secret_key: ${SECRET:"qwertyuiopasdfghjklnzxcvbnmqwertqwertyuiopasdfghjklnzxcvbnmqwert"}
+    token_expiration: 86400000
+    refresh_window: 604800000
 
 springdoc:
   swagger-ui:
@@ -41,3 +44,6 @@ management:
       percentiles-histogram:
         http.server:
           requests: true
+logging:
+  level:
+    com.curso.autoticketapp: DEBUG

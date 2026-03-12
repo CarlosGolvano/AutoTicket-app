@@ -1,14 +1,16 @@
 package com.curso.autoticketapp.user.infrastructure.api.dto;
 
 import jakarta.validation.constraints.Email;
-import lombok.Builder;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class SigninUserRequestDTO {
+public class SignupUserRequestDTO {
 
     @Email
+    @NotNull
     private String email;
+    @NotNull
     private String password;
     private String username;
 

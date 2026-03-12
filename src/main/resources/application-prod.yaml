@@ -21,8 +21,9 @@ spring:
   cache:
     type: simple
 
-jwt:
-  secret: ${SECRET:"qwertyuiopasdfghjklnzxcvbnmqwertqwertyuiopasdfghjklnzxcvbnmqwert"}
+security:
+  jwt:
+    secret_key: ${SECRET:"qwertyuiopasdfghjklnzxcvbnmqwertqwertyuiopasdfghjklnzxcvbnmqwert"}
 
 springdoc:
   swagger-ui:

@@ -8,6 +8,7 @@ import java.util.Map;
 @Data
 public class ErrorMessage {
 
+    private String code;
     private String message;
     private String exception;
     private String path;
@@ -25,5 +26,10 @@ public class ErrorMessage {
         this.exception = exception;
         this.path = path;
         this.errors = new HashMap<>();
+    }
+
+    public ErrorMessage(String code, String message, String exception, String path) {
+        this(message, exception, path);
+        this.code = code;
     }
 }

@@ -1,4 +1,4 @@
-package com.curso.autoticketapp.it.config;
+package com.curso.autoticketapp.it.user.config;
 
 import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.boot.resttestclient.TestRestTemplate;

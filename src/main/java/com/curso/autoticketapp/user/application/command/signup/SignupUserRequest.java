@@ -1,10 +1,10 @@
-package com.curso.autoticketapp.user.application.command.signin;
+package com.curso.autoticketapp.user.application.command.signup;
 
 import com.curso.autoticketapp.common.application.mediator.Request;
 import lombok.Data;
 
 @Data
-public class SigninUserRequest implements Request<SigninUserResponse> {
+public class SignupUserRequest implements Request<SignupUserResponse> {
 
     private String username;
     private String email;
