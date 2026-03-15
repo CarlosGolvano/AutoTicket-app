@@ -45,4 +45,17 @@ public class TicketController implements TicketAPI {
 
         return ResponseEntity.ok(ticketMapper.mapToCreateTicketResponseDTO(response));
     }
+
+    public ResponseEntity<PaginationResult<ProductDto>> getAllProducts(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "5") int pageSize,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) Double priceMin,
+            @RequestParam(required = false) Double priceMax
+
+    ) {
+
 }

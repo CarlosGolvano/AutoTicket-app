@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/autoticket
-    username: root
-    password: 12345
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -23,7 +23,7 @@ spring:
 
 security:
   jwt:
-    secret_key: ${SECRET:"qwertyuiopasdfghjklnzxcvbnmqwertqwertyuiopasdfghjklnzxcvbnmqwert"}
+    secret_key: ${JWT_SECRET}
     token_expiration: 86400000
     refresh_window: 604800000
 
@@ -35,10 +35,10 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: "health,info"
   endpoint:
     health:
-      show-details: always
+      show-details: when-authorized
   metrics:
     distribution:
       percentiles-histogram:

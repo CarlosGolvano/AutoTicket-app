@@ -1,8 +1,8 @@
 package com.curso.autoticketapp.ticket.infrastructure.database.entity;
 
-import com.curso.autoticketapp.ticket.domain.entity.TicketCategory;
-import com.curso.autoticketapp.ticket.domain.entity.TicketSentiment;
-import com.curso.autoticketapp.ticket.domain.entity.TicketUrgency;
+import com.curso.autoticketapp.ticket.domain.entity.enums.TicketCategory;
+import com.curso.autoticketapp.ticket.domain.entity.enums.TicketSentiment;
+import com.curso.autoticketapp.ticket.domain.entity.enums.TicketUrgency;
 import jakarta.persistence.*;
 import lombok.Data;
 

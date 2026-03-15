@@ -1,7 +1,7 @@
 package com.curso.autoticketapp.ticket.infrastructure.database.entity;
 
-import com.curso.autoticketapp.ticket.domain.entity.TicketPriority;
-import com.curso.autoticketapp.ticket.domain.entity.TicketStatus;
+import com.curso.autoticketapp.ticket.domain.entity.enums.TicketPriority;
+import com.curso.autoticketapp.ticket.domain.entity.enums.TicketStatus;
 import com.curso.autoticketapp.user.infrastructure.database.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -19,11 +20,18 @@ public class TicketEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(updatable = false, unique = true, nullable = false)
+    private UUID public_id;
+
+    @Column(nullable = false)
     private String subject;
+
+    @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
     private TicketStatus status;
 
-    @Column(nullable = true)
     private TicketPriority priority;
 
     @CreationTimestamp

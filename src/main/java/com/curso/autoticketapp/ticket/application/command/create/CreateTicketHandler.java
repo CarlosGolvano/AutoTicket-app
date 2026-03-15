@@ -2,7 +2,7 @@ package com.curso.autoticketapp.ticket.application.command.create;
 
 import com.curso.autoticketapp.common.application.mediator.RequestHandler;
 import com.curso.autoticketapp.ticket.domain.entity.Ticket;
-import com.curso.autoticketapp.ticket.domain.entity.TicketStatus;
+import com.curso.autoticketapp.ticket.domain.entity.enums.TicketStatus;
 import com.curso.autoticketapp.ticket.domain.port.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -1,5 +1,8 @@
 package com.curso.autoticketapp.ticket.domain.entity;
 
+import com.curso.autoticketapp.ticket.domain.entity.enums.TicketCategory;
+import com.curso.autoticketapp.ticket.domain.entity.enums.TicketSentiment;
+import com.curso.autoticketapp.ticket.domain.entity.enums.TicketUrgency;
 import lombok.Builder;
 import lombok.Data;
 
