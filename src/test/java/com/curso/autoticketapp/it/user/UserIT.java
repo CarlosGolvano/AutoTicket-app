@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Import(RestConfig.class)
+@Sql(value = "/it/clean.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
 public class UserIT {
 
     @Autowired

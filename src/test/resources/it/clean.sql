@@ -1,5 +1,5 @@
 DELETE
-FROM users;
+FROM tickets;
 
 DELETE
-FROM tickets;
+FROM users;
