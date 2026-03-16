@@ -18,8 +18,8 @@ jobs:
         image: postgres:16
         env:
           POSTGRES_DB: autoticket_test
-          POSTGRES_USER: ${{ secrets.DB_USERNAME }}
-          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          POSTGRES_USER: ci_user
+          POSTGRES_PASSWORD: ci_password
         ports:
           - 5432:5432
         options: >-
@@ -46,6 +46,6 @@ jobs:
         run: ./mvnw clean verify --no-transfer-progress
         env:
           PROFILE: test
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          DB_USERNAME: ci_user
+          DB_PASSWORD: ci_password
+          JWT_SECRET: a-string-secret-at-least-384-bits-or-larger-more-and-more-and-more

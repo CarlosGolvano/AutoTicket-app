@@ -3,3 +3,4 @@ spring:
     name: test-autoticketapp
   profiles:
     active: test
+
