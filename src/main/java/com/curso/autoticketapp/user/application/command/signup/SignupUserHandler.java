@@ -2,7 +2,7 @@ package com.curso.autoticketapp.user.application.command.signup;
 
 import com.curso.autoticketapp.common.application.mediator.RequestHandler;
 import com.curso.autoticketapp.user.domain.entity.User;
-import com.curso.autoticketapp.user.domain.entity.UserRole;
+import com.curso.autoticketapp.common.domain.enums.UserRole;
 import com.curso.autoticketapp.user.domain.exception.UserAlreadyExistsException;
 import com.curso.autoticketapp.user.domain.port.AuthenticationPort;
 import com.curso.autoticketapp.user.domain.port.PasswordEncoderPort;
@@ -10,7 +10,6 @@ import com.curso.autoticketapp.user.domain.port.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
 import java.util.Optional;
 
 @Component

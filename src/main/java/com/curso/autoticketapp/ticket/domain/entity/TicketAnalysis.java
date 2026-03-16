@@ -19,6 +19,6 @@ public class TicketAnalysis {
     private Date createdAt;
     private Date updatedAt;
 
-    private Ticket ticket;
+    private Long ticketId;
 
 }

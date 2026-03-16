@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class CreateTicketRequest implements Request<CreateTicketResponse> {
 
-    private Long user_id;
+    private Long userId;
     private String subject;
     private String description;
 

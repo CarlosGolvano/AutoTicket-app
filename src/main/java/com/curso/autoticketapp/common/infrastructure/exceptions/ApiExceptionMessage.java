@@ -4,6 +4,7 @@ import com.curso.autoticketapp.common.domain.exception.ExceptionWithCode;
 import com.curso.autoticketapp.common.domain.exception.HandlerNotFoundException;
 import com.curso.autoticketapp.common.domain.exception.NoValidJwtException;
 import com.curso.autoticketapp.common.domain.exception.TokenException;
+import com.curso.autoticketapp.ticket.domain.exceptions.TicketNotFoundException;
 import com.curso.autoticketapp.user.domain.exception.UserAlreadyExistsException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -40,7 +41,8 @@ public class ApiExceptionMessage {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({
-            HandlerNotFoundException.class
+            HandlerNotFoundException.class,
+            TicketNotFoundException.class
     })
     @ResponseBody
     public ErrorMessage notFound(HttpServletRequest req, Exception exception) {

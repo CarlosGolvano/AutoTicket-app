@@ -1,5 +1,6 @@
 package com.curso.autoticketapp.user.domain.entity;
 
+import com.curso.autoticketapp.common.domain.enums.UserRole;
 import lombok.Builder;
 import lombok.Data;
 

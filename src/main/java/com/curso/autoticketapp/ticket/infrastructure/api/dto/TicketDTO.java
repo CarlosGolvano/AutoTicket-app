@@ -2,20 +2,17 @@ package com.curso.autoticketapp.ticket.infrastructure.api.dto;
 
 import com.curso.autoticketapp.ticket.domain.entity.enums.TicketPriority;
 import com.curso.autoticketapp.ticket.domain.entity.enums.TicketStatus;
-import lombok.Data;
 
 import java.util.Date;
+import java.util.UUID;
 
-@Data
-public class TicketDTO {
-
-    private Long id;
-    private String subject;
-    private String description;
-    private TicketStatus status;
-    private TicketPriority priority;
-    private Date createdAt;
-    private Date updatedAt;
-    private Long user_id;
-
-}
+public record TicketDTO(
+        UUID uuid,
+        String publicId,
+        String subject,
+        String description,
+        TicketStatus status,
+        TicketPriority priority,
+        Date createdAt,
+        Date updatedAt,
+        Long userId) {}

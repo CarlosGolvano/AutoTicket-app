@@ -4,12 +4,19 @@ import com.curso.autoticketapp.common.domain.pagination.PaginationQuery;
 import com.curso.autoticketapp.common.domain.pagination.PaginationResult;
 import com.curso.autoticketapp.ticket.domain.entity.Ticket;
 import com.curso.autoticketapp.ticket.domain.entity.TicketFilter;
-import com.curso.autoticketapp.ticket.infrastructure.database.entity.TicketEntity;
+
+import java.util.Optional;
 
 public interface TicketRepository {
 
     Ticket upsert(Ticket ticket);
 
-    PaginationResult<Ticket> findAll(PaginationQuery paginationQuery, TicketFilter ticketFilter);
+    PaginationResult<Ticket> findAllTickets(PaginationQuery paginationQuery, TicketFilter ticketFilter);
+
+    PaginationResult<Ticket> findAllTicketsByUserId(PaginationQuery paginationQuery, TicketFilter ticketFilter, Long userId);
+
+    Optional<Ticket> findByPublicId(String publicId);
+
+    Optional<Ticket> findByPublicIdAndUserId(String publicId, Long userId);
 
 }

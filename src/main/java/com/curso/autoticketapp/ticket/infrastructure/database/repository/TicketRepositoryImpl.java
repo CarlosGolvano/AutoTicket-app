@@ -2,7 +2,6 @@ package com.curso.autoticketapp.ticket.infrastructure.database.repository;
 
 import com.curso.autoticketapp.common.domain.pagination.PaginationQuery;
 import com.curso.autoticketapp.common.domain.pagination.PaginationResult;
-import com.curso.autoticketapp.ticket.application.query.getall.GetAllTicketsResponse;
 import com.curso.autoticketapp.ticket.domain.entity.Ticket;
 import com.curso.autoticketapp.ticket.domain.entity.TicketFilter;
 import com.curso.autoticketapp.ticket.domain.port.TicketRepository;
@@ -10,6 +9,7 @@ import com.curso.autoticketapp.ticket.infrastructure.database.entity.TicketEntit
 import com.curso.autoticketapp.ticket.infrastructure.database.mapper.TicketEntityMapper;
 import com.curso.autoticketapp.ticket.infrastructure.specification.TicketSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -29,10 +29,10 @@ public class TicketRepositoryImpl implements TicketRepository {
     @Override
     public Ticket upsert(Ticket ticket) {
         TicketEntity ticketEntity = ticketEntityMapper.mapToTicketEntity(ticket);
-        Long ticket_id = ticket.getId();
+        Long ticketId = ticket.getId();
 
-        if (ticket_id != null) {
-            Optional<TicketEntity> optionalTicket = ticketRepository.findById(ticket_id);
+        if (ticketId != null) {
+            Optional<TicketEntity> optionalTicket = ticketRepository.findById(ticketId);
             optionalTicket.ifPresent(entity -> ticketEntity.setId(entity.getId()));
         }
 
@@ -42,7 +42,16 @@ public class TicketRepositoryImpl implements TicketRepository {
     }
 
     @Override
-    public PaginationResult<Ticket> findAll(PaginationQuery paginationQuery, TicketFilter ticketFilter) {
+    public PaginationResult<Ticket> findAllTickets(PaginationQuery paginationQuery, TicketFilter ticketFilter) {
+        return findAllTicketsCommon(paginationQuery, ticketFilter, null);
+    }
+
+    @Override
+    public PaginationResult<Ticket> findAllTicketsByUserId(PaginationQuery paginationQuery, TicketFilter ticketFilter, Long userId) {
+        return findAllTicketsCommon(paginationQuery, ticketFilter, userId);
+    }
+
+    private PaginationResult<Ticket> findAllTicketsCommon(PaginationQuery paginationQuery, TicketFilter ticketFilter, Long userId) {
         PageRequest pageRequest = PageRequest.of(
                 paginationQuery.getPage(),
                 paginationQuery.getSize(),
@@ -55,7 +64,13 @@ public class TicketRepositoryImpl implements TicketRepository {
                         .and(TicketSpecification.byPriority(ticketFilter.getPriority()))
         );
 
-        Page<TicketEntity> page = ticketRepository.findAll(pageRequest, specification);
+        Page<TicketEntity> page;
+
+        if (userId == null) {
+            page = ticketRepository.findAll(specification, pageRequest);
+        } else {
+            page = ticketRepository.findAllByUserEntity_Id(userId, specification, pageRequest);
+        }
 
         return new PaginationResult<>(
                 page.getContent()
@@ -69,5 +84,16 @@ public class TicketRepositoryImpl implements TicketRepository {
         );
     }
 
+    @Override
+    @Cacheable(value = "tickets")
+    public Optional<Ticket> findByPublicId(String publicId) {
+        return ticketRepository.findByPublicId(publicId).map(ticketEntityMapper::mapToTicket);
+    }
+
+    @Override
+    @Cacheable(value = "ticketByUserId")
+    public Optional<Ticket> findByPublicIdAndUserId(String publicId, Long userId) {
+        return ticketRepository.findByPublicIdAndUserEntity_Id(publicId, userId).map(ticketEntityMapper::mapToTicket);
+    }
 
 }

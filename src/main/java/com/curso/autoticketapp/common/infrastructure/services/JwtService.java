@@ -30,7 +30,7 @@ public class JwtService {
     @Value("${security.jwt.refresh_window}")
     private long REFRESH_WINDOW;
 
-    public static String CLAIM_USER_ID = "user_id";
+    public static String CLAIM_USER_ID = "userId";
 
     public String generateToken(UserDetails userDetails, Map<String, Object> extraClaims) {
         Map<String, Object> claims = new HashMap<>(extraClaims);

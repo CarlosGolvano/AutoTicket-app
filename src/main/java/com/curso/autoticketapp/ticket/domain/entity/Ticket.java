@@ -13,7 +13,8 @@ import java.util.UUID;
 public class Ticket {
 
     private Long id;
-    private UUID public_id;
+    private UUID uuid;
+    private String publicId;
     private String subject;
     private String description;
     private TicketStatus status;
@@ -21,5 +22,5 @@ public class Ticket {
     private Date createdAt;
     private Date updatedAt;
 
-    private Long user_id;
+    private Long userId;
 }

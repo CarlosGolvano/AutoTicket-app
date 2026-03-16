@@ -21,7 +21,10 @@ public class TicketEntity {
     private Long id;
 
     @Column(updatable = false, unique = true, nullable = false)
-    private UUID public_id;
+    private UUID uuid;
+
+    @Column(name = "public_id", updatable = false, unique = true, nullable = false, length = 5)
+    private String publicId;
 
     @Column(nullable = false)
     private String subject;

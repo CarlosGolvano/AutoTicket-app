@@ -49,7 +49,7 @@ public class CreateTicketIT {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertNotNull(response.getBody().getId());
+        assertNotNull(response.getBody().publicId());
     }
 
 }

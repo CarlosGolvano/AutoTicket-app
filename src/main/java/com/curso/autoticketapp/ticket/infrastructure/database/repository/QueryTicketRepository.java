@@ -1,15 +1,26 @@
 package com.curso.autoticketapp.ticket.infrastructure.database.repository;
 
-import com.curso.autoticketapp.common.domain.pagination.PaginationQuery;
 import com.curso.autoticketapp.ticket.infrastructure.database.entity.TicketEntity;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
-public interface QueryTicketRepository extends JpaRepository<TicketEntity, Long> {
+import java.util.Optional;
 
-    Page<TicketEntity> findAll(Pageable pageable, Specification<TicketEntity> specification);
+@Repository
+public interface QueryTicketRepository extends JpaRepository<TicketEntity, Long>, JpaSpecificationExecutor<TicketEntity> {
+
+    @NullMarked
+    Page<TicketEntity> findAll(Specification<TicketEntity> specification, Pageable pageable);
+
+    Page<TicketEntity> findAllByUserEntity_Id(Long userEntityId, Specification<TicketEntity> specification, Pageable pageable);
+
+    Optional<TicketEntity> findByPublicId(String publicId);
+
+    Optional<TicketEntity> findByPublicIdAndUserEntity_Id(String publicId, Long userEntityId);
 
 }

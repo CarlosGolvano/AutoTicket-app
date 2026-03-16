@@ -16,10 +16,10 @@ public abstract class TicketEntityMapper {
     @Autowired
     public EntityManager entityManager;
 
-    @Mapping(target = "userEntity", expression = "java(entityManager.getReference(UserEntity.class, ticket.getUser_id()))")
+    @Mapping(target = "userEntity", expression = "java(entityManager.getReference(UserEntity.class, ticket.getUserId()))")
     public abstract TicketEntity mapToTicketEntity(Ticket ticket);
 
-    @Mapping(source = "userEntity.id", target = "user_id")
+    @Mapping(source = "userEntity.id", target = "userId")
     public abstract Ticket mapToTicket(TicketEntity ticketEntity);
 
 }

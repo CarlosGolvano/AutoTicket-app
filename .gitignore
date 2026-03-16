@@ -37,3 +37,6 @@ build/
 .env.local
 .env.*.local
 *.env
+
+
+/src/main/java/com/curso/autoticketapp/pruebas/

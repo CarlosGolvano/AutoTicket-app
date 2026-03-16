@@ -1,12 +1,11 @@
 package com.curso.autoticketapp.user.infrastructure.database.entity;
 
-import com.curso.autoticketapp.user.domain.entity.UserRole;
+import com.curso.autoticketapp.common.domain.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NonNull;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
