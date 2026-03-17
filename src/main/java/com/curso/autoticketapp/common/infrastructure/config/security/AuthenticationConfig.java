@@ -1,4 +1,4 @@
-package com.curso.autoticketapp.common.infrastructure.config;
+package com.curso.autoticketapp.common.infrastructure.config.security;
 
 import com.curso.autoticketapp.user.domain.exception.UserNotFoundException;
 import com.curso.autoticketapp.user.infrastructure.database.repository.QueryUserRepository;

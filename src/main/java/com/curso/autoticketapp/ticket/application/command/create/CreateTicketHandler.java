@@ -28,7 +28,7 @@ public class CreateTicketHandler implements RequestHandler<CreateTicketRequest, 
 
         Ticket upsert = ticketRepository.upsert(ticket);
 
-        return new CreateTicketResponse(upsert.getPublicId());
+        return new CreateTicketResponse(upsert.getUuid(), upsert.getPublicId());
     }
 
     @Override

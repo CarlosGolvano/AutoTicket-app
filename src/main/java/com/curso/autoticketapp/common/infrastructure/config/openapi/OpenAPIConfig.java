@@ -1,4 +1,4 @@
-package com.curso.autoticketapp.common.infrastructure.config;
+package com.curso.autoticketapp.common.infrastructure.config.openapi;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;

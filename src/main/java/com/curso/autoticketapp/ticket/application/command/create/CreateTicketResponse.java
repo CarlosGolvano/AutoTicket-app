@@ -1,3 +1,5 @@
 package com.curso.autoticketapp.ticket.application.command.create;
 
-public record CreateTicketResponse(String publicId) {}
+import java.util.UUID;
+
+public record CreateTicketResponse(UUID uuid, String publicId) {}
