@@ -11,8 +11,6 @@ app:
     topics:
       ticket:
         classification:
-          requested: ticket.classification.requested
-          completed: ticket.classification.completed
-          processing: ticket.classification.processing
-          failed: ticket.classification.failed
+          request: ticket.classification.request
+          response: ticket.classification.response
     schema-registry-url: http://localhost:8081

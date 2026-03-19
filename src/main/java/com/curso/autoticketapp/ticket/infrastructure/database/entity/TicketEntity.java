@@ -5,6 +5,7 @@ import com.curso.autoticketapp.ticket.domain.entity.enums.TicketStatus;
 import com.curso.autoticketapp.user.infrastructure.database.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -45,6 +46,7 @@ public class TicketEntity {
     @Column(name = "updated_at")
     private Date updatedAt;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity userEntity;

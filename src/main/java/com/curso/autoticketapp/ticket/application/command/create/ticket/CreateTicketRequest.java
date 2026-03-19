@@ -1,4 +1,4 @@
-package com.curso.autoticketapp.ticket.application.command.create;
+package com.curso.autoticketapp.ticket.application.command.create.ticket;
 
 import com.curso.autoticketapp.common.application.mediator.Request;
 import lombok.Data;

@@ -9,21 +9,15 @@ import org.springframework.kafka.config.TopicBuilder;
 @Configuration
 public class KafkaTopicsConfig {
 
-    @Value("${app.kafka.topics.ticket.classification.requested}")
-    private String ticketRequested;
+    @Value("${app.kafka.topics.ticket.classification.request}")
+    private String ticketRequest;
 
-    @Value("${app.kafka.topics.ticket.classification.completed}")
-    private String ticketCompleted;
-
-    @Value("${app.kafka.topics.ticket.classification.processing}")
-    private String ticketProcessing;
-
-    @Value("${app.kafka.topics.ticket.classification.failed}")
-    private String ticketFailed;
+    @Value("${app.kafka.topics.ticket.classification.response}")
+    private String ticketResponse;
 
     @Bean
     public NewTopic ticketRequestedTopic() {
-        return TopicBuilder.name(ticketRequested)
+        return TopicBuilder.name(ticketRequest)
                 .partitions(1)
                 .replicas(1)
                 .build();
@@ -31,25 +25,10 @@ public class KafkaTopicsConfig {
 
     @Bean
     public NewTopic ticketCompletedTopic() {
-        return TopicBuilder.name(ticketCompleted)
+        return TopicBuilder.name(ticketResponse)
                 .partitions(1)
                 .replicas(1)
                 .build();
     }
 
-    @Bean
-    public NewTopic ticketProcessingTopic() {
-        return TopicBuilder.name(ticketProcessing)
-                .partitions(1)
-                .replicas(1)
-                .build();
-    }
-
-    @Bean
-    public NewTopic ticketFailedTopic() {
-        return TopicBuilder.name(ticketFailed)
-                .partitions(1)
-                .replicas(1)
-                .build();
-    }
 }

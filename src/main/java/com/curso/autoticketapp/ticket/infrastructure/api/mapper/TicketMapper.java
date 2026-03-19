@@ -1,8 +1,8 @@
 package com.curso.autoticketapp.ticket.infrastructure.api.mapper;
 
 import com.curso.autoticketapp.common.domain.pagination.PaginationResult;
-import com.curso.autoticketapp.ticket.application.command.create.CreateTicketRequest;
-import com.curso.autoticketapp.ticket.application.command.create.CreateTicketResponse;
+import com.curso.autoticketapp.ticket.application.command.create.ticket.CreateTicketRequest;
+import com.curso.autoticketapp.ticket.application.command.create.ticket.CreateTicketResponse;
 import com.curso.autoticketapp.ticket.domain.entity.Ticket;
 import com.curso.autoticketapp.ticket.infrastructure.api.dto.CreateTicketDTO;
 import com.curso.autoticketapp.ticket.infrastructure.api.dto.CreateTicketResponseDTO;

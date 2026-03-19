@@ -6,6 +6,7 @@ import com.curso.autoticketapp.ticket.domain.entity.Ticket;
 import com.curso.autoticketapp.ticket.domain.entity.TicketFilter;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface TicketRepository {
 
@@ -18,5 +19,9 @@ public interface TicketRepository {
     Optional<Ticket> findByPublicId(String publicId);
 
     Optional<Ticket> findByPublicIdAndUserId(String publicId, Long userId);
+
+    Optional<Ticket> findById(Long id);
+
+    Optional<Ticket> findByUUID(UUID uuid);
 
 }

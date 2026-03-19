@@ -2,6 +2,7 @@ package com.curso.autoticketapp.common.infrastructure.config.kafka;
 
 import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;
 import io.confluent.kafka.serializers.KafkaAvroDeserializer;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -13,11 +14,13 @@ import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.converter.MessagingMessageConverter;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Configuration
 public class KafkaConsumerConfig {
 
@@ -52,7 +55,19 @@ public class KafkaConsumerConfig {
         ConcurrentKafkaListenerContainerFactory<String, GenericRecord> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.setRecordMessageConverter(new MessagingMessageConverter());
+        factory.setCommonErrorHandler(loggingErrorHandler());
         return factory;
+    }
+
+    @Bean
+    public DefaultErrorHandler loggingErrorHandler() {
+        DefaultErrorHandler errorHandler = new DefaultErrorHandler((record, exception) -> {
+            Throwable cause = exception.getCause() != null ? exception.getCause() : exception;
+            log.error("Kafka listener failed on topic={} partition={} offset={} [{}]: {}",
+                    record.topic(), record.partition(), record.offset(),
+                    cause.getClass().getName(), cause.getMessage(), cause);
+        });
+        return errorHandler;
     }
 
 }

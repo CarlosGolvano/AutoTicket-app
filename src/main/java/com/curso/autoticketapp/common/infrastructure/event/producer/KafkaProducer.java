@@ -1,4 +1,4 @@
-package com.curso.autoticketapp.common.infrastructure.event;
+package com.curso.autoticketapp.common.infrastructure.event.producer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

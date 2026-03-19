@@ -5,10 +5,10 @@ import com.curso.autoticketapp.common.application.mediator.Mediator;
 import com.curso.autoticketapp.common.domain.enums.UserRole;
 import com.curso.autoticketapp.common.domain.pagination.PaginationQuery;
 import com.curso.autoticketapp.common.domain.pagination.PaginationResult;
-import com.curso.autoticketapp.common.infrastructure.event.KafkaProducer;
+import com.curso.autoticketapp.common.infrastructure.event.producer.KafkaProducer;
 import com.curso.autoticketapp.common.infrastructure.services.JwtService;
-import com.curso.autoticketapp.ticket.application.command.create.CreateTicketRequest;
-import com.curso.autoticketapp.ticket.application.command.create.CreateTicketResponse;
+import com.curso.autoticketapp.ticket.application.command.create.ticket.CreateTicketRequest;
+import com.curso.autoticketapp.ticket.application.command.create.ticket.CreateTicketResponse;
 import com.curso.autoticketapp.ticket.application.query.getall.GetAllTicketsRequest;
 import com.curso.autoticketapp.ticket.application.query.getall.GetAllTicketsResponse;
 import com.curso.autoticketapp.ticket.application.query.getbyid.GetTicketByPublicIdRequest;
@@ -40,8 +40,8 @@ public class TicketController implements TicketAPI {
 
     public static final String BASE_URL = "/api/v1/tickets";
 
-    @Value("${app.kafka.topics.ticket.classification.requested}")
-    private String ticketRequestedTopic;
+    @Value("${app.kafka.topics.ticket.classification.request}")
+    private String ticketRequestTopic;
 
     private final Mediator mediator;
 
@@ -72,7 +72,7 @@ public class TicketController implements TicketAPI {
                 .setTimestamp(System.currentTimeMillis())
                 .build();
 
-        kafkaProducer.send(ticketRequestedTopic, event);
+        kafkaProducer.send(ticketRequestTopic, event);
 
         return ResponseEntity.ok(ticketMapper.mapToCreateTicketResponseDTO(response));
     }

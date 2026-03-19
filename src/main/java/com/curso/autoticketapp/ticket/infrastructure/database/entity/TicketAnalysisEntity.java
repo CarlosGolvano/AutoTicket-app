@@ -5,6 +5,9 @@ import com.curso.autoticketapp.ticket.domain.entity.enums.TicketSentiment;
 import com.curso.autoticketapp.ticket.domain.entity.enums.TicketUrgency;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 
@@ -21,12 +24,15 @@ public class TicketAnalysisEntity {
     private TicketSentiment sentiment;
     private TicketUrgency urgency;
 
+    @CreationTimestamp
     @Column(name = "created_at")
     private Date createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updatedAt;
 
+    @ToString.Exclude
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ticket_id", unique = true)
     private TicketEntity ticket;

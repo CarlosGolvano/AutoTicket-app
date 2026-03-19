@@ -17,6 +17,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
@@ -29,10 +30,9 @@ public class TicketRepositoryImpl implements TicketRepository {
     @Override
     public Ticket upsert(Ticket ticket) {
         TicketEntity ticketEntity = ticketEntityMapper.mapToTicketEntity(ticket);
-        Long ticketId = ticket.getId();
 
-        if (ticketId != null) {
-            Optional<TicketEntity> optionalTicket = ticketRepository.findById(ticketId);
+        if (ticket.getId() != null ) {
+            Optional<TicketEntity> optionalTicket = ticketRepository.findById(ticket.getId());
             optionalTicket.ifPresent(entity -> ticketEntity.setId(entity.getId()));
         }
 
@@ -95,5 +95,17 @@ public class TicketRepositoryImpl implements TicketRepository {
     public Optional<Ticket> findByPublicIdAndUserId(String publicId, Long userId) {
         return ticketRepository.findByPublicIdAndUserEntity_Id(publicId, userId).map(ticketEntityMapper::mapToTicket);
     }
+
+    @Override
+    @Cacheable(value = "ticketById")
+    public Optional<Ticket> findById(Long id) {
+        return ticketRepository.findById(id).map(ticketEntityMapper::mapToTicket);
+    }
+
+    @Override
+    public Optional<Ticket> findByUUID(UUID uuid) {
+        return ticketRepository.findByUuid(uuid).map(ticketEntityMapper::mapToTicket);
+    }
+
 
 }
