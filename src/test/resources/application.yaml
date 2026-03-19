@@ -4,3 +4,15 @@ spring:
   profiles:
     active: test
 
+app:
+  kafka:
+    bootstrap-servers: localhost:9092
+    group-id: spring-service-group
+    topics:
+      ticket:
+        classification:
+          requested: ticket.classification.requested
+          completed: ticket.classification.completed
+          processing: ticket.classification.processing
+          failed: ticket.classification.failed
+    schema-registry-url: http://localhost:8081

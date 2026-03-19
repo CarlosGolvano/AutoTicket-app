@@ -11,17 +11,17 @@ import java.util.function.Consumer;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class TicketCompletedConsumer implements Consumer<TicketCompletedEvent> {
+public class TicketProcessingConsumer implements Consumer<TicketCompletedEvent> {
 
     @Override
     @KafkaListener(
-            topics = "${app.kafka.topics.ticket.classification.completed}",
+            topics = "${app.kafka.topics.ticket.classification.processing}",
             groupId = "${app.kafka.group-id}",
             containerFactory = "kafkaListenerContainerFactory"
     )
     public void accept(TicketCompletedEvent ticketCompletedEvent) {
 
-        log.info("Completed event recived: {}", ticketCompletedEvent);
+        log.info("Processing event recived: {}", ticketCompletedEvent);
     }
 
 }

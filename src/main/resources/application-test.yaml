@@ -23,7 +23,7 @@ spring:
 
 security:
   jwt:
-    secret_key: ${JWT_SECRET}
+    secret_key: secret01secret01secret01secret01secret01secret01secret01secret01
     token_expiration: 86400000
     refresh_window: 604800000
 
